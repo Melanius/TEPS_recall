@@ -21,85 +21,95 @@ st.set_page_config(
 # --- Custom CSS for Mobile & Aesthetics ---
 st.markdown("""
 <style>
-    /* Global Font & Background */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+    /* Global Settings */
+    html, body, [class*="css"] {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+    
     .stApp {
-        background-color: #f0f2f6; 
+        background-color: #FDFBF7; /* Warm Ivory */
     }
     
-    /* Card Style */
-    .css-1r6slb0, .css-12oz5g7 { 
-        padding: 1rem;
+    /* Headers */
+    h1 {
+        color: #6C5CE7; /* Soft Indigo */
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
     
-    .stButton > button {
-        width: 100%;
-        border-radius: 12px;
-        height: 3em;
-        font-size: 18px;
-        border: 1px solid #d1d5db;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        transition: all 0.2s ease;
-        background-color: white;
-        color: #333;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        border-color: #4CAF50;
-        color: #4CAF50;
-    }
-    
-    .stButton > button:active {
-        background-color: #e5e7eb;
-        transform: translateY(1px);
+    h3 {
+        color: #B2BEC3;
     }
 
-    /* Question Card */
-    .question-card {
-        background-color: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        text-align: center;
-        margin-bottom: 20px;
-        border-left: 5px solid #6C63FF;
-    }
-    
-    .question-text {
-        font-size: 28px;
-        font-weight: bold;
-        color: #1f2937;
-        margin-top: 10px;
+    /* Card/Button Style Base */
+    .stButton > button {
+        width: 100%;
+        border-radius: 20px;
+        height: 6rem;
+        font-size: 20px;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+        
+        /* Pastel Blue Default */
+        background-color: #D6E6F2; 
+        color: #2D3436;
         margin-bottom: 10px;
     }
     
-    .meaning-text {
-        font-size: 16px;
-        color: #6b7280;
+    .stButton > button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(162, 155, 254, 0.3);
+        background-color: #A2D2FF; /* Slightly deeper pastel blue on hover */
+        color: white;
     }
-
-    /* Progress Bar Color */
+    
+    /* Question Card */
+    .question-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 24px;
+        box-shadow: 0 10px 25px rgba(223, 230, 233, 0.5);
+        text-align: center;
+        margin-bottom: 25px;
+        border: 2px solid #F0F3F5;
+    }
+    
+    .question-text {
+        font-size: 32px;
+        font-weight: 800;
+        color: #6C5CE7;
+        margin: 15px 0;
+    }
+    
+    /* Progress Bar */
     .stProgress > div > div > div > div {
-        background-color: #6C63FF;
+        background: linear-gradient(90deg, #A2D2FF, #FFC8DD); /* Pastel Gradient */
     }
     
     /* Result Cards */
-    .result-card-correct {
-        background-color: #ecfdf5;
-        border: 1px solid #10b981;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 5px;
+    .result-card-wrong {
+        background-color: #FFEEEE; /* Pastel Red Bg */
+        border-left: 5px solid #FFAAA5; /* Pastel Red Border */
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        color: #555;
     }
     
-    .result-card-wrong {
-        background-color: #fef2f2;
-        border: 1px solid #ef4444;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 5px;
+    .result-card-correct {
+        background-color: #E8F8F5; /* Pastel Green Bg */
+        border-left: 5px solid #A3E4D7; /* Pastel Green Border */
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        color: #555;
     }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -178,35 +188,37 @@ def start_quiz(loader, file_list, mode, num_q):
 # --- Screens ---
 
 def render_home(loader):
-    st.title("🧠 TEPS Remember")
-    st.caption("Customizable Quiz Master")
+    st.markdown("<h1 style='font-size: 40px;'>🧠 TEPS Recall</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #636E72; margin-bottom: 30px;'>Premium Quiz Master</p>", unsafe_allow_html=True)
     
-    st.markdown("### 🎯 Choose Your Mode")
-    
+    # 2x2 Grid Layout
     col1, col2 = st.columns(2)
     
     with col1:
-        if st.button("📘 어휘 (Vocabulary)", use_container_width=True):
+        if st.button("📘 어휘\n(Vocab)", use_container_width=True):
             st.session_state.mode = 'vocabulary'
             st.session_state.page = 'setup'
             st.rerun()
             
     with col2:
-        if st.button("📗 문법 (Grammar)", use_container_width=True):
+        if st.button("📗 문법\n(Grammar)", use_container_width=True):
             st.session_state.mode = 'grammar'
             st.session_state.page = 'setup'
             st.rerun()
 
-    st.markdown("---")
-    if st.button("🎧 청해 (Listening) - Flashcard Mode", use_container_width=True):
-        st.session_state.mode = 'listening'
-        st.session_state.page = 'setup'
-        st.rerun()
+    col3, col4 = st.columns(2)
 
-    if st.button("📖 독해 (Reading)", use_container_width=True):
-        st.session_state.mode = 'reading'
-        st.session_state.page = 'setup'
-        st.rerun()
+    with col3:
+        if st.button("🎧 청해\n(Listening)", use_container_width=True):
+            st.session_state.mode = 'listening'
+            st.session_state.page = 'setup'
+            st.rerun()
+
+    with col4:
+        if st.button("📖 독해\n(Reading)", use_container_width=True):
+            st.session_state.mode = 'reading'
+            st.session_state.page = 'setup'
+            st.rerun()
 
 def render_setup(loader):
     st.title("⚙️ Quiz Setup")
